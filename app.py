@@ -43,6 +43,7 @@ def create_app(test_config=None):
     henkilo = Base.classes.henkilo
 
     @app.route("/titles/<string:id>")
+    @app.route("/v1/titles/<string:id>")
     def title(id):
         try:
             result = db.session.query(julkaisu).filter_by(tconst=id).first()
@@ -63,6 +64,7 @@ def create_app(test_config=None):
         
 
     @app.route("/names/<string:id>")
+    @app.route("/v1/names/<string:id>")
     def name(id):
         try:
             result = db.session.query(henkilo).filter_by(nconst=id).first()
@@ -77,12 +79,13 @@ def create_app(test_config=None):
             return Response(e, 500)
 
     @app.route("/search")
+    @app.route("/v1/search")
     def search():
         try:
             query = request.args.get('q')
             print(query)
             results = db.session.query(julkaisu).filter(julkaisu.primarytitle.like("%{q}%".format(q=query))).all()
-            return jsonify(results=[result.id for result in results])
+            return jsonify(results=[result.tconst for result in results])
 
         except Exception as e:
             return Response(e, 500)

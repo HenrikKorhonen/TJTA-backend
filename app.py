@@ -48,7 +48,7 @@ def create_app(test_config=None):
         try:
             result = db.session.query(julkaisu).filter_by(tconst=id).first()
             
-            return jsonify(tconst=result.id,
+            return jsonify(tconst=result.tconst,
                    titletype=result.titletype,
                    primarytitle=result.primarytitle,
                    originaltitle=result.originaltitle,
@@ -68,7 +68,7 @@ def create_app(test_config=None):
     def name(id):
         try:
             result = db.session.query(henkilo).filter_by(nconst=id).first()
-            return jsonify(nconst=result.id,
+            return jsonify(nconst=result.nconst,
                    primaryname=result.primaryname,
                    birthyear=result.birthyear,
                    deathyear=result.deathyear,
